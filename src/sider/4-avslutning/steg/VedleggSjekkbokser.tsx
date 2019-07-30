@@ -81,7 +81,7 @@ const Sjekkbokser = (props: MergedProps) => {
         onChange={handleOnChange}
       />
       {vedleggTilEttersending.length > 0 && (
-        <AlertStripe type="advarsel">
+        <AlertStripe type="feil">
           <FormattedMessage id="avslutning.advarsel" />
         </AlertStripe>
       )}

@@ -88,7 +88,7 @@ const DineVedlegg = (props: MergedProps) => {
         </div>
       </form>
       {vedleggTilEttersending.length > 0 && (
-        <AlertStripe type="advarsel" className="dinevedlegg__alert">
+        <AlertStripe type="feil" className="dinevedlegg__alert">
           <FormattedMessage id="avslutning.advarsel" />
         </AlertStripe>
       )}
