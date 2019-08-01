@@ -17,6 +17,7 @@ interface Routes {
 }
 interface Props {
   valgtKategori: Kategori;
+  mestBrukteUnderkategorier: Underkategori[];
 }
 
 interface ReduxProps {
@@ -30,8 +31,11 @@ type MergedProps = Props &
   ReduxProps;
 
 const Underkategorier = (props: MergedProps) => {
-  const { valgtKategori, intl, match } = props;
-  const { underkategorier } = valgtKategori;
+  const { valgtKategori, intl, match, mestBrukteUnderkategorier } = props;
+  const underkategorier =
+    valgtKategori.urlparam === "mestbrukte"
+      ? mestBrukteUnderkategorier
+      : valgtKategori.underkategorier;
 
   return (
     <div className="underkategori" key={valgtKategori.tittel[intl.locale]}>

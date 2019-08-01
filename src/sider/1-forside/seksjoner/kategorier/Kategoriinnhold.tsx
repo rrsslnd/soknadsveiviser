@@ -11,6 +11,7 @@ interface Props {
   valgtType: "Person" | "Bedrift";
   valgtKategori: Kategori;
   valgtUnderkategori: Underkategori;
+  mestBrukteUnderkategorier: Underkategori[];
   alleKategorier: Kategori[];
 }
 

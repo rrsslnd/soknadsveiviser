@@ -7,6 +7,7 @@ import { Loading, Result, HttpError, DataError } from "./api";
 export interface Kategorier {
   valgtKategori: Kategori;
   valgtUnderkategori: Underkategori;
+  mestBrukteUnderkategorier: Underkategori[];
   alleKategorier: Kategori[];
 }
 

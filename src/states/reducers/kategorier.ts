@@ -1,7 +1,10 @@
 import { Kategori } from "../../typer/kategori";
 import { Underkategori } from "../../typer/underkategori";
 import { Store, FetchKategorier } from "../../typer/store";
-import { typeTilNorsk } from "../../utils/kategorier";
+import {
+  hentMestBrukteUnderkategorier,
+  typeTilNorsk
+} from "../../utils/kategorier";
 import { filtrerKategorier } from "../../utils/kategorier";
 import { HTTPError } from "../../typer/errors";
 import { ReduxDataError, ReduxHttpError } from "./felles";
@@ -25,6 +28,11 @@ interface SettValgtUnderkategori {
 interface SettKategorier {
   type: string;
   kategorier: Kategori[];
+}
+
+interface SettMestBrukteUnderkategorier {
+  type: string;
+  kategorier: Underkategori[];
 }
 
 // Actions
@@ -61,6 +69,7 @@ type KategoriActions = SettValgtType &
   SettValgtKategori &
   SettKategorier &
   SettValgtUnderkategori &
+  SettMestBrukteUnderkategorier &
   ReduxDataError &
   ReduxHttpError;
 
@@ -102,6 +111,10 @@ export const kategorier = (
           .filter(kategori => urlUnderkategori === kategori.urlparam)
           .shift();
 
+      const mestBrukteUnderkategorier = hentMestBrukteUnderkategorier(
+        aktiveKategorier
+      );
+
       return !valgtKategori
         ? {
             status: "DATA_ERROR",
@@ -118,6 +131,7 @@ export const kategorier = (
             valgtType: valgtType,
             valgtKategori: valgtKategori,
             valgtUnderkategori: valgtUnderkategori,
+            mestBrukteUnderkategorier: mestBrukteUnderkategorier,
             alleKategorier: sorterteKategorier
           };
 

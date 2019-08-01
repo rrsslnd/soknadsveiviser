@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Redirect, Route, Switch} from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Forside from "./sider/1-forside/Forside";
 import SkjemautlistingOversikt from "./sider/interne/skjemautlisting/Oversikt";
 import SkjemautlistingDetaljert from "./sider/interne/skjemautlisting/Detaljert";
@@ -52,18 +52,28 @@ class App extends Component<MergedProps> {
     const { sprak } = params;
     return (
       <Switch>
-        <Redirect exact from={`/soknader/${sprak}`} to={`/soknader/${sprak}/person`} />
-        <Redirect exact from={`${path}/:inngang(ettersendelse|klage)`} to={`${path}/:inngang(ettersendelse|klage)/person`} />
+        <Redirect
+          exact={true}
+          from={`/soknader/${sprak}`}
+          to={`/soknader/${sprak}/person`}
+        />
+        <Redirect
+          exact={true}
+          from={`${path}/:inngang(ettersendelse|klage)`}
+          to={`${path}/:inngang(ettersendelse|klage)/person`}
+        />
 
-        <Route path={`${path}/:inngang(ettersendelse|klage)?/:personEllerBedrift(person|bedrift)`}>
+        <Route
+          path={`${path}/:inngang(ettersendelse|klage)?/:personEllerBedrift(person|bedrift)`}
+        >
           <MedKategorier>
             <Route
-              exact
+              exact={true}
               path={`${path}/:inngang(ettersendelse|klage)?/:personEllerBedrift(person|bedrift)/:kategori?`}
               component={Forside}
             />
             <Route
-              exact
+              exact={true}
               path={`${path}/:personEllerBedrift(person|bedrift)/:kategori/:underkategori`}
               component={Soknadsvelger}
             />
@@ -74,12 +84,12 @@ class App extends Component<MergedProps> {
           </MedKategorier>
         </Route>
         <Route
-          exact
+          exact={true}
           path={`${path}/skjemautlisting/:skjematype(skjema|sed)`}
           component={SkjemautlistingOversikt}
         />
         <Route
-          exact
+          exact={true}
           path={`${path}/skjemautlisting/detaljert`}
           component={SkjemautlistingDetaljert}
         />
