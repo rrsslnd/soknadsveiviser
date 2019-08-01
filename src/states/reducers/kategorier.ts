@@ -120,7 +120,9 @@ export const kategorier = (
             status: "DATA_ERROR",
             error: "errors.api.kategori"
           }
-        : urlUnderkategori && !valgtUnderkategori
+        : urlUnderkategori &&
+          !valgtUnderkategori &&
+          valgtKategori.urlparam !== "mestbrukte"
         ? {
             status: "DATA_ERROR",
             error: "errors.api.underkategori"
