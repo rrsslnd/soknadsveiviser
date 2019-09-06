@@ -70,9 +70,14 @@ class Soknadsobjekter extends Component<MergedProps> {
             case "LOADING":
               return <Spinner style={{ backgroundColor: "white" }} />;
             case "RESULT":
-              let ettApentObjekt = soknader.soknadsobjekter.length + soknader.soknadslenker.length < 2;
-              let apentSoknadsobjekt = ettApentObjekt && soknader.soknadsobjekter.length === 1;
-              let apenSoknadslenke = ettApentObjekt && soknader.soknadslenker.length === 1;
+              let ettApentObjekt =
+                soknader.soknadsobjekter.length +
+                  soknader.soknadslenker.length <
+                2;
+              let apentSoknadsobjekt =
+                ettApentObjekt && soknader.soknadsobjekter.length === 1;
+              let apenSoknadslenke =
+                ettApentObjekt && soknader.soknadslenker.length === 1;
               return (
                 <>
                   {valgtUnderkategori && (
@@ -80,11 +85,19 @@ class Soknadsobjekter extends Component<MergedProps> {
                   )}
 
                   {soknader.soknadsobjekter.map((soknadsobjekt, id) => (
-                    <VisSoknadsobjekt key={id} soknadsobjekt={soknadsobjekt} apen={apentSoknadsobjekt} />
+                    <VisSoknadsobjekt
+                      key={id}
+                      soknadsobjekt={soknadsobjekt}
+                      apen={apentSoknadsobjekt}
+                    />
                   ))}
 
                   {soknader.soknadslenker.map((soknadslenke, id) => (
-                    <VisSoknadslenke key={id} soknadslenke={soknadslenke} apen={apenSoknadslenke} />
+                    <VisSoknadslenke
+                      key={id}
+                      soknadslenke={soknadslenke}
+                      apen={apenSoknadslenke}
+                    />
                   ))}
                 </>
               );
