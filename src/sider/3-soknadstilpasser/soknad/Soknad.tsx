@@ -67,8 +67,8 @@ class PapirSoknad extends Component<MergedProps> {
         />
         <VelgVedlegg soknadsobjekt={valgtSoknadsobjekt} />
         <DineVedlegg
-          visErVedleggPakrevd
-          visRadioButtons
+          visErVedleggPakrevd={true}
+          visRadioButtons={true}
           vedleggTilInnsending={relevanteVedlegg}
         />
         <Personalia />

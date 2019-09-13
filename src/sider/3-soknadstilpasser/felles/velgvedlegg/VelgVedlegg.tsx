@@ -8,6 +8,8 @@ import PanelBase from "nav-frontend-paneler";
 import { FetchKategorier } from "../../../../typer/store";
 import Nummer from "./Nummer";
 import Sporsmal from "./Sporsmal";
+import { scrollTilElement } from "../../../../utils/scroll";
+import { useEffect, useState } from "react";
 
 interface Routes {
   ettersendelse: string;
@@ -44,34 +46,70 @@ const VelgVedlegg = (props: MergedProps) => {
     .filter(v => v.soknadsobjektId === soknadsobjekt._id)
     .filter(v => !v.pakrevd);
 
+  let forrigeVedlegg: { vedleggsid: string; vedleggsnr: number };
+  /*  const [nyttVedlegg, settVedlegg] = useState({
+    vedleggsid: "",
+    vedleggsnr: 0
+  });
+
+  useEffect(() => {
+    console.log("scroll til nyttVedlegg: ", nyttVedlegg);
+    document.getElementById(nyttVedlegg.vedleggsid) !== null &&
+      scrollTilElement(nyttVedlegg.vedleggsid);
+  });*/
   return (
     <>
-      {vedleggForUtlisting.map(vedleggsobj => {
+      {vedleggForUtlisting.map((vedleggsobj, vedleggsnr) => {
         label = ettersendelse
           ? vedleggsobj.vedlegg.navn
           : vedleggsobj.situasjon || vedleggsobj.vedlegg.navn;
 
+        console.log(vedleggsobj);
+
         if (vedleggsobj.skalSendes === undefined) {
           // logikk for bare å vise èn og en
           ukjentValg++;
+          /*if (
+            forrigeVedlegg !== undefined &&
+            vedleggsnr === forrigeVedlegg.vedleggsnr + 1 &&
+            document.getElementById(vedleggsobj._key) !== null
+          ) {
+            scrollTilElement(vedleggsobj._key);
+            console.log(
+              "scroll her",
+              document.getElementById(vedleggsobj._key)
+            );
+          }*/
         }
+        /*else {
+          settVedlegg({
+            vedleggsid: vedleggsobj._key,
+            vedleggsnr: vedleggsnr
+          });
+          console.log("forrige vedlegg", forrigeVedlegg, nyttVedlegg);
+        }*/
 
         if (ukjentValg > 1) {
           return null;
         }
 
         return (
-          <PanelBase className="seksjon vedlegg__panel" key={vedleggsobj._key}>
-            {vedleggForUtlisting.length > 1 && (
-              <Nummer
-                key={spmNummer}
-                spmNummer={++spmNummer}
-                kategoriFarge={kategoriFarge}
-                antallSpm={vedleggForUtlisting.length}
-              />
-            )}
-            <Sporsmal label={label} vedleggsobj={vedleggsobj} />
-          </PanelBase>
+          <div key={vedleggsobj._key} id={vedleggsobj._key}>
+            <PanelBase
+              className="seksjon vedlegg__panel"
+              key={vedleggsobj._key}
+            >
+              {vedleggForUtlisting.length > 1 && (
+                <Nummer
+                  key={spmNummer}
+                  spmNummer={++spmNummer}
+                  kategoriFarge={kategoriFarge}
+                  antallSpm={vedleggForUtlisting.length}
+                />
+              )}
+              <Sporsmal label={label} vedleggsobj={vedleggsobj} />
+            </PanelBase>
+          </div>
         );
       })}
     </>

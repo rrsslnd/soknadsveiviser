@@ -15,9 +15,11 @@ export function scrollTilElement(
       top: elementPos,
       behavior: typeof oppforsel === "undefined" ? "smooth" : oppforsel
     });
+    console.log("try windows croll");
   } catch (e) {
     try {
       if (typeof elementid === "undefined") {
+        console.log("periodebanner");
         elementid = "periodebanner";
       }
       document.getElementById(elementid)!.scrollIntoView();
