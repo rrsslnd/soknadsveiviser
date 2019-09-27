@@ -44,9 +44,8 @@ export const lastNedFil = (url: string, tittel: string, filtype: string) => {
 
 export const lastNedFilBase64 = (base64: string, tittel: string, filtype: string) => {
   console.log(`Laster ned ${tittel}`);
-  const url = window.URL.createObjectURL(new Blob([b64toBlob(base64)]));
-  automatiskNedlasting(url, tittel, filtype);
-  window.URL.revokeObjectURL(url);
+  const blob = new Blob([b64toBlob(base64)]);
+  automatiskNedlasting(blob, tittel, filtype);
 };
 
 export async function lastNedFil(filUrl: string, tittel: string, filtype: string) {
@@ -55,28 +54,28 @@ export async function lastNedFil(filUrl: string, tittel: string, filtype: string
     if (!response.ok) {
       console.error(`Network response was not ok ${response.status} ${response.statusText}`);
     }
-    const myBlob = await response.blob();
-    const newBlob = new Blob([myBlob]);
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE og edge
-      window.navigator.msSaveOrOpenBlob(newBlob, `${tittel}.${filtype}`);
-    } else { // for alt annet
-      const url = window.URL.createObjectURL(newBlob);
-      automatiskNedlasting(url, tittel, filtype);
-      window.URL.revokeObjectURL(url);
-    }
+    const responseBlob = await response.blob();
+    const blob = new Blob([responseBlob]);
+    automatiskNedlasting(blob, tittel, filtype);
   } catch (error) {
     console.log("There has been a problem with your fetch operation: ", error.message);
   }
 
 }
 
-const automatiskNedlasting = (url: string, tittel: string, filtype: string) => {
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", `${tittel}.${filtype}`);
-  document.body.appendChild(link);
-  link.click();
-  if (link.parentNode) {
-    link.parentNode.removeChild(link);
+const automatiskNedlasting = (blob: Blob, tittel: string, filtype: string) => {
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE og edge
+    window.navigator.msSaveOrOpenBlob(blob, `${tittel}.${filtype}`);
+  } else { // for alt annet
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${tittel}.${filtype}`);
+    document.body.appendChild(link);
+    link.click();
+    if (link.parentNode) {
+      link.parentNode.removeChild(link);
+    }
+    window.URL.revokeObjectURL(url);
   }
-}
+};
