@@ -68,14 +68,13 @@ const automatiskNedlasting = (blob: Blob, tittel: string, filtype: string) => {
     window.navigator.msSaveOrOpenBlob(blob, `${tittel}.${filtype}`);
   } else { // for alt annet
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${tittel}.${filtype}`);
-    document.body.appendChild(link);
-    link.click();
-    if (link.parentNode) {
-      link.parentNode.removeChild(link);
-    }
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    // the filename you want
+    a.download = `${tittel}.${filtype}`;
+    document.body.appendChild(a);
+    a.click();
     window.URL.revokeObjectURL(url);
   }
 };
