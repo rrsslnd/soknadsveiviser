@@ -56,9 +56,14 @@ export async function lastNedFil(filUrl: string, tittel: string, filtype: string
       console.error(`Network response was not ok ${response.status} ${response.statusText}`);
     }
     const myBlob = await response.blob();
-    const url = window.URL.createObjectURL(new Blob([myBlob]));
-    automatiskNedlasting(url, tittel, filtype);
-    window.URL.revokeObjectURL(url);
+    const newBlob = new Blob([myBlob]);
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE og edge
+      window.navigator.msSaveOrOpenBlob(newBlob, `${tittel}.${filtype}`);
+    } else { // for alt annet
+      const url = window.URL.createObjectURL(newBlob);
+      automatiskNedlasting(url, tittel, filtype);
+      window.URL.revokeObjectURL(url);
+    }
   } catch (error) {
     console.log("There has been a problem with your fetch operation: ", error.message);
   }
