@@ -83,7 +83,7 @@ const ForstesideGenerator = (props: MergedProps) => {
     hentForsteside(foerstesideParams)
       .then(samletPdf => {
         setState({ status: "DOWNLOAD" });
-        const navn = props.intl.formatMessage({id: "avslutning.steg.forsteside.pdf.tittel"})
+        const navn = props.intl.formatMessage({id: "avslutning.steg.forsteside.pdf.tittel"});
         lastNedFilBase64(samletPdf, `NAV - ${navn}`, "pdf");
       })
       .then(() => {
@@ -91,6 +91,12 @@ const ForstesideGenerator = (props: MergedProps) => {
       })
       .catch(error => {
         setState({ status: "ERROR", error });
+        console.error(
+            "Feil ved henting av førsteside for soknadsobjekt: %s, med sprak: %s, med feilmelding: %s",
+            klage ? klageSoknadsobjekt.navn.nb : valgtSoknadsobjekt.navn.nb,
+            valgtLocale,
+            error
+        );
       });
   };
 

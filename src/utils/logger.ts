@@ -6,8 +6,8 @@ export const loggEvent = (
   tags?: { [key: string]: any }
 ) => frontendlogger && frontendlogger.event(tittel, fields || {}, tags || {});
 
-export const loggError = (error: string) =>
-  frontendlogger && frontendlogger.error(error);
+export const loggError = (error: string, url?: string) =>
+  frontendlogger && frontendlogger.error(error + " " + url);
 
 export const loggApiError = (url: string, error: string, status?: number) => {
   const errorMessage = `Feil ved henting av data: ` +
@@ -21,7 +21,7 @@ export const loggApiError = (url: string, error: string, status?: number) => {
     url
   };
 
-  loggError(errorMessage);
+  loggError(errorMessage, url);
   loggEvent(title, fields, tags);
 };
 
